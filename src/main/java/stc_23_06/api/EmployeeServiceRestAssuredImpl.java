@@ -21,6 +21,10 @@ public class EmployeeServiceRestAssuredImpl implements EmployeeService {
             .expectStatusCode(201)
             .expectContentType(ContentType.JSON)
             .build();
+    private final ResponseSpecification patchResponseSpec = new ResponseSpecBuilder()
+            .expectStatusCode(200)
+            .expectContentType(ContentType.JSON)
+            .build();
 
 
     @Override
@@ -59,19 +63,25 @@ public class EmployeeServiceRestAssuredImpl implements EmployeeService {
                 .when()
                 .post(path)
                 .then().log().all()
-                .statusCode(201)
+                .spec(postResponseSpec)
                 .extract()
                 .path("id");
         return id;
     }
 
     @Override
-    public EmployeeDto edit(EmployeeDto emp) {
-        return null;
+    public EmployeeDto update(EmployeeDto emp, String token) {
+        EmployeeDto newEmp = given().log().all()
+                .when()
+                .header("x-client-token", token)
+                .contentType(ContentType.JSON)
+                .body(emp)
+                .patch(path + "/{id}", emp.getId())
+                .then().log().all()
+                .spec(patchResponseSpec)
+                .extract()
+                .body().as(EmployeeDto.class);
+        return newEmp;
     }
 
-    @Override
-    public EmployeeDto changeStatus(int id, boolean isActive) {
-        return null;
-    }
 }

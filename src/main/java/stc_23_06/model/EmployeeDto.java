@@ -2,16 +2,17 @@ package stc_23_06.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.javafaker.Faker;
 
+import java.util.Locale;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EmployeeDto {
+    static Faker faker = new Faker();
     private int id;
     @JsonProperty("isActive")
     private boolean isActive;
-    //    createDateTime": "2023-08-11T15:32:45.575Z",
-//    "lastChangedDateTime": "2023-08-11T15:32:45.575Z",
     private String firstName;
     private String lastName;
     private String middleName;
@@ -35,7 +36,19 @@ public class EmployeeDto {
         this.avatarUrl = avatarUrl;
         this.companyId = companyId;
     }
-
+    public static EmployeeDto random(int companyId){
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String phoneNumber = faker.phoneNumber().phoneNumber();
+        return new EmployeeDto(true,
+                firstName.substring(0, Math.min(firstName.length(), 20)),
+                lastName.substring(0,Math.min(lastName.length(), 20)),
+                "test_",
+                phoneNumber.substring(0,Math.min(phoneNumber.length(),15)),
+                faker.internet().emailAddress(),
+                faker.internet().url(),
+                companyId);
+    }
     @Override
     public String toString() {
         return "Employee{" +

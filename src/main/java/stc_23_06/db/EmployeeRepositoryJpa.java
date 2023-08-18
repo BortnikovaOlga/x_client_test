@@ -1,14 +1,13 @@
 package stc_23_06.db;
 
-
 import jakarta.persistence.EntityManager;
-import stc_23_06.model.CompanyEntity;
 import stc_23_06.model.EmployeeDto;
 import stc_23_06.model.EmployeeEntity;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 public class EmployeeRepositoryJpa implements EmployeeRepository {
     private final EntityManager entityManager;
@@ -47,4 +46,14 @@ public class EmployeeRepositoryJpa implements EmployeeRepository {
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
     }
+
+    public void update(EmployeeDto emp)
+    {
+        EmployeeEntity dbEmp = entityManager.find(EmployeeEntity.class, emp.getId());
+        entityManager.getTransaction().begin();
+        dbEmp.mergeDto(emp);
+        entityManager.merge(dbEmp);
+        entityManager.getTransaction().commit();
+    };
+
 }

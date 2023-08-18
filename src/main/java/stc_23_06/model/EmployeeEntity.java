@@ -168,6 +168,16 @@ public class EmployeeEntity {
                 && Objects.equals(avatarUrl, emp.getAvatarUrl());
     }
 
+    public void mergeDto(EmployeeDto emp){
+        if (emp.getFirstName() != null) firstName=emp.getFirstName();
+        if (emp.getLastName() != null) lastName=emp.getLastName();
+        if (emp.getMiddleName() != null) firstName=emp.getMiddleName();
+        if (emp.getPhone() != null) firstName=emp.getPhone();
+        if (emp.getEmail() != null) firstName=emp.getEmail();
+        if (emp.getAvatarUrl() != null) firstName=emp.getAvatarUrl();
+        isActive = emp.isActive();
+
+    }
     @Override
     public String toString() {
         return "EmployeeEntity{" +
