@@ -37,7 +37,7 @@ public class EmployeeBusinessTest {
     @BeforeAll
     public static void setUp(Properties props, EmployeeRepository repository, CompanyRepository companyRepository) throws SQLException {
         RestAssured.baseURI = props.getProperty("test.url");
-        idCompany = companyRepository.create("test_company", "test_company");
+        idCompany = companyRepository.create("test_company");
         testEmployee = EmployeeDto.random(idCompany);
         System.out.println(testEmployee);
         testEmployee.setId(repository.create(testEmployee));

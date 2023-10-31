@@ -1,5 +1,6 @@
 package stc_23_06.db;
 
+import io.qameta.allure.Allure;
 import jakarta.persistence.EntityManager;
 import stc_23_06.model.EmployeeDto;
 import stc_23_06.model.EmployeeEntity;
@@ -25,11 +26,15 @@ public class EmployeeRepositoryJpa implements EmployeeRepository {
 
     @Override
     public EmployeeEntity getById(int id) {
+        Allure.step("ORM получение сотрудника по ИД");
+        Allure.parameter("id=", id);
         return entityManager.find(EmployeeEntity.class, id);
     }
 
     @Override
     public int create(EmployeeDto emp) {
+        Allure.step("ORM добавление нового сотрудника");
+        Allure.parameter("employee=", emp);
         EmployeeEntity newEmployeer = new EmployeeEntity(emp);
         newEmployeer.setCreateDateTime(Timestamp.valueOf(LocalDateTime.now()));
         newEmployeer.setLastChangedDateTime(Timestamp.valueOf(LocalDateTime.now()));
@@ -41,6 +46,8 @@ public class EmployeeRepositoryJpa implements EmployeeRepository {
 
     @Override
     public void deleteById(int id) {
+        Allure.step("ORM удаление сотрудника по ИД");
+        Allure.parameter("id=", id);
         EmployeeEntity entity = entityManager.find(EmployeeEntity.class, id);
         entityManager.getTransaction().begin();
         entityManager.remove(entity);

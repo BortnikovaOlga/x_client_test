@@ -3,6 +3,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.sql.Types;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +20,9 @@ public class CompanyEntity {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
     @Basic
+    @Column(name = "deleted_at", columnDefinition = "timestamp(6)")
+    private Instant deletedAt;
+    @Basic
     @Column(name = "create_timestamp", nullable = false)
     private Timestamp createDateTime;
     @Basic
@@ -28,9 +34,8 @@ public class CompanyEntity {
     @Basic
     @Column(name = "description", length = 300)
     private String description;
-    @Basic
-    @Column(name = "deleted_at")
-    private Timestamp deletedAt;
+//    @Basic
+
 
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "company")
@@ -85,11 +90,11 @@ public class CompanyEntity {
         this.description = description;
     }
 
-    public Timestamp getDeletedAt() {
+    public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Timestamp deletedAt) {
+    public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
     }
 
